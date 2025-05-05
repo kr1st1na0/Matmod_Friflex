@@ -36,7 +36,7 @@
 
 ### Pipeline
 
-![Pipeline](IdChess Pipeline.jpg)
+![Pipeline](IdChess_Pipeline.jpg)
 
 ### Диаграмма последовательностей
 
