@@ -1,12 +1,8 @@
-'''import telebot
+import telebot
 from telebot import types
 import os
 import json
-import requests # Добавляем импорт для HTTP запросов
-import tempfile # Добавляем для создания временных файлов
-import logging # Добавляем логирование в бот
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 # Убедитесь, что переменная окружения API_TOKEN установлена
 token = os.getenv("API_TOKEN")
 
@@ -14,16 +10,7 @@ if not token:
     print("Error: API_TOKEN environment variable not set.")
     exit()
 
-bot = telebot.TeleBot(token)'''
-import telebot
-from telebot import types
-import os
-import requests
-import tempfile
-import logging
-
-logging.basicConfig(level=logging.INFO)
-bot = telebot.TeleBot(os.getenv("API_TOKEN"))
+bot = telebot.TeleBot(token)
 
 # --- Глобальные переменные ---
 user_styles = {}
@@ -32,11 +19,6 @@ user_processing_languages = {}  # Для хранения языка обраб�
 # user_changing_interface_lang = {} # Этот флаг больше не нужен, используем user_state
 user_state = {} # Добавляем словарь для хранения состояния пользователя
 user_previous_state = {} # Добавляем словарь для хранения ПРЕДЫДУЩЕГО состояния пользователя
-
-# URL вашего Flask веб-сервера
-# Если бот и веб-сервер на одном компьютере, используйте 127.0.0.1
-# Если веб-сервер доступен из интернета, используйте его публичный URL
-FLASK_SERVER_URL = "http://127.0.0.1:5000/upload"
 
 # Директории для сохранения файлов
 VIDEO_DIR = "user_videos"
@@ -452,58 +434,6 @@ def send_upload_json_prompt(chat_id):
     #markup = create_upload_json_keyboard(lang) # Убираем клавиатуру, ожидаем просто файл
     bot.send_message(chat_id, texts[lang]['upload_json_prompt'], reply_markup=types.ReplyKeyboardRemove())
 
-def send_files_to_flask(chat_id, video_filepath, json_filepath):
-    lang = user_interface_languages.get(chat_id, 'en')
-    try:
-        with open(video_filepath, 'rb') as video_file, open(json_filepath, 'rb') as json_file:
-            files = {
-                'video_file': (os.path.basename(video_filepath), video_file),
-                'json_file': (os.path.basename(json_filepath), json_file)
-            }
-            logging.info(f"Sending files to Flask server: {FLASK_SERVER_URL} for chat_id {chat_id}")
-            response = requests.post(FLASK_SERVER_URL, files=files)
-
-        logging.info(f"Received response from Flask server: Status Code {response.status_code}")
-
-        if response.status_code == 200:
-            bot.send_message(chat_id, texts[lang]['processing_started'])
-            logging.info(f"Files sent successfully for chat_id {chat_id}")
-            # Переходим в состояние обработки (или другое конечное состояние)
-            user_state[chat_id] = STATE_PROCESSING
-            # Здесь можно добавить логику для ожидания результата обработки
-        else:
-            # Если сервер вернул ошибку
-            try:
-                error_data = response.json()
-                error_message = error_data.get('error', 'Неизвестная ошибка на сервере.')
-            except:
-                error_message = f"Ошибка на сервере: Статус {response.status_code}"
-
-            bot.send_message(chat_id, f"Ошибка при отправке файлов на сервер: {error_message}")
-            logging.error(f"Error sending files to Flask server for chat_id {chat_id}: Status {response.status_code}, Response: {response.text}")
-            # Возвращаемся к предыдущему шагу или предлагаем начать заново
-            send_upload_video_prompt(chat_id) # Просим загрузить видео снова
-
-    except requests.exceptions.ConnectionError as e:
-        logging.error(f"Connection error when sending files to Flask server for chat_id {chat_id}: {e}", exc_info=True)
-        bot.send_message(chat_id, "Ошибка соединения с сервером обработки. Пожалуйста, попробуйте позже.")
-        send_upload_video_prompt(chat_id) # Просим загрузить видео снова
-    except Exception as e:
-        logging.error(f"An unexpected error occurred when sending files for chat_id {chat_id}: {e}", exc_info=True)
-        bot.send_message(chat_id, "Произошла непредвиденная ошибка. Пожалуйста, попробуйте еще раз.")
-        send_upload_video_prompt(chat_id) # Просим загрузить видео снова
-    finally:
-        # Удаляем временные файлы после отправки, независимо от успеха
-        try:
-            if os.path.exists(video_filepath):
-                os.remove(video_filepath)
-                logging.info(f"Removed temporary video file: {video_filepath}")
-            if os.path.exists(json_filepath):
-                os.remove(json_filepath)
-                logging.info(f"Removed temporary JSON file: {json_filepath}")
-        except Exception as e:
-            logging.error(f"Error removing temporary files for chat_id {chat_id}: {e}")
-
 # Добавляем функцию для возврата к предыдущему шагу
 def return_to_previous_state(chat_id):
     previous_state = user_previous_state.pop(chat_id, STATE_AWAITING_STYLE) # По умолчанию возвращаемся к стилю, если предыдущего состояния нет
@@ -576,101 +506,6 @@ def handle_change_style_command(message):
 def handle_start(message):
     send_welcome(message.chat.id)
 
-@bot.message_handler(commands=['web_upload'])
-def handle_web_upload(message):
-    chat_id = message.chat.id
-    lang = user_interface_languages.get(chat_id, 'en')
-    bot.send_message(
-        chat_id,
-        f"{texts[lang]['upload_video_prompt']}\n\n"
-        "Или загрузите файлы через веб-интерфейс: http://ваш-сервер:5000"
-    )
-
-@bot.message_handler(content_types=['video', 'document'])
-def handle_change_style_command(message):
-    chat_id = message.chat.id
-    current_state = user_state.get(chat_id)
-    lang = user_interface_languages.get(chat_id, 'en')
-
-    # Проверяем, находится ли пользователь на этапе ожидания видео
-    if current_state == STATE_AWAITING_VIDEO:
-        # Если получен ВИДЕО файл
-        if message.content_type == 'video':
-            # Проверяем, что это не видео-кружок (video_note)
-            if message.video_note:
-                bot.send_message(chat_id, texts[lang]['video_note_not_allowed'])
-                send_upload_video_prompt(chat_id)
-                return
-
-            bot.send_message(chat_id, texts[lang]['video_received'], reply_markup=types.ReplyKeyboardRemove())
-
-            try:
-                # Скачиваем видео файл во временный файл
-                file_info = bot.get_file(message.video.file_id)
-                downloaded_file_content = bot.download_file(file_info.file_path)
-
-                # Используем tempfile для безопасного создания временного файла
-                # Суффикс добавляем для сохранения расширения, что полезно для Flask
-                temp_video_file = tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file_info.file_path)[1])
-                temp_video_file.write(downloaded_file_content)
-                temp_video_file.close() # Закрываем файл, чтобы его можно было открыть снова для отправки
-
-                # Переходим в состояние ожидания JSON, сохраняя путь к временному видеофайлу
-                user_state[chat_id] = {'state': STATE_AWAITING_JSON, 'video_path': temp_video_file.name}
-                send_upload_json_prompt(chat_id)
-            except Exception as e:
-                logging.error(f"Error downloading video for chat_id {chat_id}: {e}", exc_info=True)
-                bot.send_message(chat_id, "Ошибка при загрузке видео. Попробуйте еще раз.")
-                send_upload_video_prompt(chat_id)
-
-        # Если получен документ вместо видео
-        else:
-            bot.send_message(chat_id, texts[lang]['invalid_file_type'].format(expected_type='video'))
-            send_upload_video_prompt(chat_id)
-    elif current_state == STATE_AWAITING_JSON:
-        if message.content_type == 'document':
-            file_name = message.document.file_name
-
-            # Строгая проверка на JSON файл
-            if not file_name or not file_name.lower().endswith('.json'):
-                bot.send_message(chat_id, texts[lang]['invalid_file_type'].format(expected_type='JSON'))
-                send_upload_json_prompt(chat_id)
-                return
-
-            try:
-                # Скачиваем JSON файл во временный файл
-                file_info = bot.get_file(message.document.file_id)
-                downloaded_file_content = bot.download_file(file_info.file_path)
-
-                # Используем tempfile для безопасного создания временного файла
-                temp_json_file = tempfile.NamedTemporaryFile(delete=False, suffix=".json")
-                temp_json_file.write(downloaded_file_content)
-                temp_json_file.close() # Закрываем файл
-
-                # Получаем путь к сохраненному видеофайлу из состояния
-                video_filepath = current_state.get('video_path')
-
-                if not video_filepath or not os.path.exists(video_filepath):
-                     logging.error(f"Video file path missing or invalid in state for chat_id {chat_id}")
-                     bot.send_message(chat_id, "Произошла внутренняя ошибка. Пожалуйста, начните заново.")
-                     send_welcome(chat_id) # Начинаем процесс заново
-                     # Удаляем временный JSON файл, если видеофайл потерян
-                     if os.path.exists(temp_json_file.name):
-                         os.remove(temp_json_file.name)
-                     return
-            except Exception as e:
-                logging.error(f"Error processing JSON file for chat_id {chat_id}: {e}", exc_info=True)
-                bot.send_message(chat_id, "Ошибка при обработке файла. Попробуйте еще раз.")
-                send_upload_json_prompt(chat_id)
-
-        # Если получено не документ
-        else:
-            bot.send_message(chat_id, texts[lang]['invalid_file_type'].format(expected_type='JSON'))
-            send_upload_json_prompt(chat_id)
-
-    else:
-        # Если файлы получены в неожиданном состоянии
-        bot.send_message(chat_id, texts[lang]['invalid_input'])
 
 # --- Обработчик текстовых сообщений ---
 # Этот хэндлер теперь обрабатывает ТОЛЬКО текстовые сообщения
@@ -890,6 +725,6 @@ def handle_unwanted_messages(message):
         bot.send_message(chat_id, texts[lang]['invalid_input'])
 
 
-if __name__ == '__main__':
-    print("Starting bot...")
-    bot.infinity_polling()
+# --- Запуск бота ---
+print("Bot started...")
+bot.infinity_polling()

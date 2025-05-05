@@ -42,9 +42,6 @@ participant VoiceModel #F2E6FF
 participant OverlayService #E6CCFF
 'Сервис для наложения субтитров и озвучки
 
-participant Effects #D1B3FF
-'Сервис для наложения эффектов (НАВЕРНОЕ СНАЧАЛА НАДО ИХ СГЕНЕРИТЬ, ЛИБО ПРОСТО ЗАКАЧАТЬ И НАКЛАДЫВАТЬ ГОТОВЫЕ)
-
 
 User -> TGBot : MP4 и JSON
 TGBot -> JSONEditor : JSON 

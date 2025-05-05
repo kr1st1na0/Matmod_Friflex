@@ -36,10 +36,10 @@
 
 ### Pipeline
 
-<...>
+![Pipeline](IdChess Pipeline.png)
 
 ### Диаграмма последовательностей
 
 [PlantUml Service](https://www.plantuml.com/plantuml/uml/Aov9B2hXil98pSd9LoZFByf9iUOgBial0000)
 
-<...>
+![Diagram](diagram.png)
