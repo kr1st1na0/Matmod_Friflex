@@ -1,0 +1,59 @@
+You are a chess analyst. I will give you a chess game in JSON format. Each element in the array represents a move and contains:
+- "move" — the move in standard algebraic notation,
+- "start_time" and "end_time" — the timestamps of this move in the video.
+
+Your task is to identify and return the most interesting moments from the game. An interesting moment is a sequence of 2–4 consecutive moves connected by a single tactical or strategic idea.
+
+Return such moments in JSON format, where:
+- The key is the full move number where the sequence starts (e.g., "7" means the 7th full move — white and black),
+- The value is an array of 2–4 moves. Each move should include:
+  - "move"
+  - "start_time"
+  - "end_time"
+  - "comment" — a concise but meaningful comment in English (around 2 short sentences). The comment should explain:
+    - which piece made the move (in English notation),
+    - to which square it moved,
+    - and why the move is interesting (e.g., sacrifice, check, mate, mistake, opening idea, combination, etc.). Include the name of the opening or motif if relevant.
+
+Prioritize the following types of moments (in this order):
+1. Quick checkmate
+2. Complete opening sequence (4–6 moves) — with the name of the opening
+3. Well-prepared sacrifices
+4. Winning a major piece (especially the queen)
+5. Series of checks
+6. Unusual or rare opening moves
+7. Time pressure and sudden acceleration
+8. Tactical shots in the middlegame or endgame
+9. Checkmate delivered by a pawn
+10. Final decisive attack (mate, resignation, time loss)
+
+Be sure to include:
+- The full opening sequence if it can be identified, with its name
+- The final segment of the game if it concludes with a clear idea
+
+Quantity:
+- If the game has 20 or more moves — return 10–15 such moments
+- If the game has fewer than 20 moves — return 5–10
+
+Do not include:
+- Isolated moves without tactical connection
+- Standard developing moves (like a3, h6, d6), unless they are part of a combination
+- Castling, unless it is involved in a tactical idea
+
+Output format:
+
+
+  "move_number": [
+    
+      "move": "...",
+      "start_time": "...",
+      "end_time": "...",
+      "comment": "..."
+    ,
+    ...
+  ],
+  ...
+
+
+All comments must be written in English, concise but meaningful, and strictly within the JSON structure. Do not include any text outside of JSON.
+Here is the list of moves:

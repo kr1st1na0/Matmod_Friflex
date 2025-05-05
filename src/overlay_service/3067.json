@@ -1,0 +1,266 @@
+{
+  "7": [
+    {
+      "move": "Bf4",
+      "start_time": "00:06.032",
+      "end_time": "00:07.226",
+      "comment": ""
+    },
+    {
+      "move": "e6",
+      "start_time": "00:07.226",
+      "end_time": "00:08.297",
+      "comment": ""
+    },
+    {
+      "move": "Nc3",
+      "start_time": "00:08.297",
+      "end_time": "00:08.930",
+      "comment": ""
+    },
+    {
+      "move": "Bd6",
+      "start_time": "00:08.930",
+      "end_time": "00:10.137",
+      "comment": "The bishop moves to d6, developing and controlling the center — a classic opening move."
+    },
+    {
+      "move": "Bxd6",
+      "start_time": "00:10.138",
+      "end_time": "00:11.293",
+      "comment": ""
+    },
+    {
+      "move": "Qxd6",
+      "start_time": "00:11.294",
+      "end_time": "00:11.706",
+      "comment": ""
+    },
+    {
+      "move": "Nf3",
+      "start_time": "00:11.707",
+      "end_time": "00:12.173",
+      "comment": ""
+    }
+  ],
+  "13": [
+    {
+      "move": "Nf3",
+      "start_time": "00:11.707",
+      "end_time": "00:12.173",
+      "comment": ""
+    },
+    {
+      "move": "Nc6",
+      "start_time": "00:12.173",
+      "end_time": "00:13.699",
+      "comment": ""
+    },
+    {
+      "move": "Bd3",
+      "start_time": "00:16.964",
+      "end_time": "00:19.033",
+      "comment": ""
+    },
+    {
+      "move": "Nf6",
+      "start_time": "00:19.033",
+      "end_time": "00:20.367",
+      "comment": "Controlling the center and preparing for further development is the main idea of this move."
+    },
+    {
+      "move": "Qd2",
+      "start_time": "00:20.368",
+      "end_time": "00:21.777",
+      "comment": ""
+    },
+    {
+      "move": "Bd7",
+      "start_time": "00:21.777",
+      "end_time": "00:23.407",
+      "comment": ""
+    },
+    {
+      "move": "O-O",
+      "start_time": "00:23.407",
+      "end_time": "00:25.125",
+      "comment": ""
+    }
+  ],
+  "25": [
+    {
+      "move": "Qd2",
+      "start_time": "00:20.368",
+      "end_time": "00:21.777",
+      "comment": ""
+    },
+    {
+      "move": "Bd7",
+      "start_time": "00:21.777",
+      "end_time": "00:23.407",
+      "comment": ""
+    },
+    {
+      "move": "O-O",
+      "start_time": "00:23.407",
+      "end_time": "00:25.125",
+      "comment": ""
+    },
+    {
+      "move": "Ne7",
+      "start_time": "00:31.595",
+      "end_time": "00:33.826",
+      "comment": "Starting knight maneuvering with the aim of preparing an attack on the opponent's position."
+    },
+    {
+      "move": "Ne5",
+      "start_time": "00:34.004",
+      "end_time": "00:36.234",
+      "comment": ""
+    },
+    {
+      "move": "Ng6",
+      "start_time": "00:38.352",
+      "end_time": "00:39.676",
+      "comment": ""
+    },
+    {
+      "move": "Rfe1",
+      "start_time": "00:39.676",
+      "end_time": "00:40.999",
+      "comment": ""
+    }
+  ],
+  "37": [
+    {
+      "move": "Rfe1",
+      "start_time": "00:39.676",
+      "end_time": "00:40.999",
+      "comment": ""
+    },
+    {
+      "move": "O-O",
+      "start_time": "00:41.853",
+      "end_time": "00:44.084",
+      "comment": ""
+    },
+    {
+      "move": "Nd1",
+      "start_time": "00:54.851",
+      "end_time": "00:57.081",
+      "comment": ""
+    },
+    {
+      "move": "Bc6",
+      "start_time": "01:00.686",
+      "end_time": "01:02.657",
+      "comment": "The bishop develops and prepares for a potential attack on the opponent's position."
+    },
+    {
+      "move": "c3",
+      "start_time": "01:02.658",
+      "end_time": "01:04.630",
+      "comment": ""
+    },
+    {
+      "move": "Nd7",
+      "start_time": "01:05.992",
+      "end_time": "01:07.677",
+      "comment": ""
+    },
+    {
+      "move": "f4",
+      "start_time": "01:07.677",
+      "end_time": "01:09.363",
+      "comment": ""
+    }
+  ],
+  "49": [
+    {
+      "move": "f4",
+      "start_time": "01:07.677",
+      "end_time": "01:09.363",
+      "comment": ""
+    },
+    {
+      "move": "Ndxe5",
+      "start_time": "01:09.945",
+      "end_time": "01:11.323",
+      "comment": ""
+    },
+    {
+      "move": "fxe5",
+      "start_time": "01:11.323",
+      "end_time": "01:12.184",
+      "comment": ""
+    },
+    {
+      "move": "Qe7",
+      "start_time": "01:12.184",
+      "end_time": "01:13.898",
+      "comment": "The queen develops and prepares for a potential attack on the opponent's position."
+    },
+    {
+      "move": "g3",
+      "start_time": "01:15.834",
+      "end_time": "01:18.064",
+      "comment": ""
+    },
+    {
+      "move": "Rfe8",
+      "start_time": "01:24.313",
+      "end_time": "01:25.907",
+      "comment": ""
+    },
+    {
+      "move": "Nf2",
+      "start_time": "01:25.907",
+      "end_time": "01:27.502",
+      "comment": ""
+    }
+  ],
+  "61": [
+    {
+      "move": "Nf2",
+      "start_time": "01:25.907",
+      "end_time": "01:27.502",
+      "comment": ""
+    },
+    {
+      "move": "Nf8",
+      "start_time": "01:34.622",
+      "end_time": "01:36.853",
+      "comment": ""
+    },
+    {
+      "move": "Qf4",
+      "start_time": "01:36.878",
+      "end_time": "01:39.109",
+      "comment": ""
+    },
+    {
+      "move": "Ng6",
+      "start_time": "01:45.114",
+      "end_time": "01:47.345",
+      "comment": "The knight develops and prepares for a potential attack on the opponent's position."
+    },
+    {
+      "move": "Qg4",
+      "start_time": "01:50.319",
+      "end_time": "01:52.550",
+      "comment": ""
+    },
+    {
+      "move": "Qd7",
+      "start_time": "01:59.303",
+      "end_time": "02:01.357",
+      "comment": ""
+    },
+    {
+      "move": "Nh3",
+      "start_time": "02:01.357",
+      "end_time": "02:03.410",
+      "comment": ""
+    }
+  ]
+}

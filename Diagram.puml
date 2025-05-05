@@ -1,0 +1,65 @@
+@startuml
+
+
+
+' Фиолетовый стиль
+skinparam {
+  backgroundColor #F8F4FF
+  componentBorderColor #8A2BE2
+  classBorderColor #7B68EE
+  noteBorderColor #BA55D3
+  classBackgroundColor #E6CCFF
+  interfaceBackgroundColor #D1B3FF
+  methodBackgroundColor #F2E6FF
+  noteBackgroundColor #F5D7FF
+  defaultTextColor #4B0082
+  arrowColor #9370DB
+  arrowThickness 1.5
+  packageStyle rectangle
+  roundCorner 15
+  shadowing true
+  actorStyle rectangle
+  sequenceMessageAlign center
+}
+
+actor User
+
+participant TGBot #E6CCFF
+'Telegram-бот
+
+participant JSONEditor #D1B3FF
+'Сервис для обработки JSON: выявление правильных timestamp
+
+participant NiceMomentsModel #F2E6FF
+'Модель для определения интересных моментов и генерации субтитров
+
+participant VideoCutter #E6CCFF
+'Сервис для обрезки видео: получаем итоговое видео без субтитров, озвучки, эффектов
+
+participant VoiceModel #F2E6FF
+'Модель для генерации озвучки
+
+participant OverlayService #E6CCFF
+'Сервис для наложения субтитров и озвучки
+
+participant Effects #D1B3FF
+'Сервис для наложения эффектов (НАВЕРНОЕ СНАЧАЛА НАДО ИХ СГЕНЕРИТЬ, ЛИБО ПРОСТО ЗАКАЧАТЬ И НАКЛАДЫВАТЬ ГОТОВЫЕ)
+
+
+User -> TGBot : MP4 и JSON
+TGBot -> JSONEditor : JSON 
+TGBot -> VideoCutter : MP4
+JSONEditor -> NiceMomentsModel : JSON (с правильными временными метками)
+NiceMomentsModel -> VideoCutter : JSON (интересные ходы с субтитрами)
+VideoCutter -> VoiceModel : JSON (субтитры)
+
+VideoCutter -> OverlayService : MP4 (обрезанное видео)
+VideoCutter -> OverlayService : JSON (субтитры)
+VoiceModel -> OverlayService : WAV (озвучка)
+
+OverlayService -> TGBot : MP4 (итоговое видео)
+TGBot -> User : MP4 (итоговое видео)
+
+
+
+@enduml

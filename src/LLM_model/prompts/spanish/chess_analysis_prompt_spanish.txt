@@ -1,0 +1,59 @@
+Eres un analista de ajedrez. Te proporcionaré una partida de ajedrez en formato JSON. Cada elemento del arreglo representa una jugada y contiene:
+- "move" — la jugada en notación algebraica estándar,
+- "start_time" y "end_time" — las marcas de tiempo de esta jugada en el video.
+
+Tu tarea es identificar y devolver los momentos más interesantes de la partida. Un momento interesante es una secuencia de 2 a 4 jugadas consecutivas unidas por una idea táctica o estratégica común.
+
+Devuelve estos momentos en formato JSON, donde:
+- La clave es el número de jugada completa donde comienza la secuencia (por ejemplo, "7" significa el séptimo movimiento completo — blancas y negras),
+- El valor es un arreglo de 2 a 4 jugadas. Cada jugada debe incluir:
+  - "move"
+  - "start_time"
+  - "end_time"
+  - "comment" — un comentario breve pero informativo en español (aproximadamente 2 oraciones cortas). El comentario debe indicar:
+    - qué pieza hizo el movimiento (en notación español),
+    - a qué casilla se movió,
+    - y por qué la jugada es interesante (por ejemplo, sacrificio, jaque, mate, error, idea de apertura, combinación, etc.). Incluye el nombre de la apertura o motivo si corresponde.
+
+Prioriza los siguientes tipos de momentos (en este orden):
+1. Mate rápido
+2. Secuencia completa de apertura (4–6 jugadas) — con el nombre de la apertura
+3. Sacrificios bien preparados
+4. Captura de una pieza mayor (especialmente la dama)
+5. Serie de jaques
+6. Jugadas iniciales inusuales o raras
+7. Apuro de tiempo y aceleraciones repentinas
+8. Tácticas en el medio juego o final
+9. Mate dado con un peón
+10. Ataque final decisivo (mate, rendición, caída de bandera)
+
+Asegúrate de incluir:
+- La secuencia completa de apertura si se puede identificar, con su nombre
+- El segmento final de la partida si concluye con una idea clara
+
+Cantidad:
+- Si la partida tiene 20 o más jugadas — devuelve de 10 a 15 momentos
+- Si tiene menos de 20 — devuelve de 5 a 10
+
+No incluyas:
+- Jugadas aisladas sin conexión táctica
+- Jugadas de desarrollo estándar (como a3, h6, d6), a menos que sean parte de una combinación
+- Enroques, a menos que estén implicados en una idea táctica
+
+Formato de salida:
+
+
+  "numero_de_jugada": [
+    
+      "move": "...",
+      "start_time": "...",
+      "end_time": "...",
+      "comment": "..."
+    ,
+    ...
+  ],
+  ...
+
+
+Todos los comentarios deben estar en español, ser concisos pero con sentido ajedrecístico, y presentarse únicamente dentro de la estructura JSON. No añadas texto fuera del JSON.
+Aquí está la lista de jugadas:
